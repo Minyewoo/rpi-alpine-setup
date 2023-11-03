@@ -1,8 +1,19 @@
-# installing required dependencies
-sudo apt install dosfstools syslinux -y
+# Usage: ./alpine_burn_sd.sh -d /dev/sda
+while getopts d: flag
+do
+    case "${flag}" in
+        # please, specify the right one sd card device path
+        d) sd_dev=${OPTARG};;
+    esac
+done
 
-# please, specify the right one sd card device path
-sd_dev=/dev/sdb
+if [[ -z "$sd_dev" ]]; then
+    >&2 echo "Error! Please specify the -d argument"
+    exit 2
+fi
+
+# installing required dependencies
+sudo apt-get -qq install dosfstools syslinux -y
 
 # umounting all sd card partitions if any
 sudo umount -q $sd_dev?
@@ -11,9 +22,9 @@ sudo umount -q $sd_dev?
 sudo dd if=/dev/zero of=$sd_dev bs=512 count=1
 
 # create MBR
-sudo parted $sd_dev mklabel msdos
+sudo parted -s $sd_dev mklabel msdos
 # create first partition for fat32 filesystem
-sudo parted -a opt $sd_dev mkpart primary fat32 0% 513MB
+sudo parted -s -a opt $sd_dev mkpart primary fat32 0% 513MB
 # create second partition for ext4 filesystem
 #sudo parted -a opt $sd_dev mkpart primary ext4 513MB 100%
 
@@ -49,9 +60,13 @@ sudo mkdir -p /media/$sd_dev_name
 sudo mount -t vfat ${sd_dev}1 /media/$sd_dev_name
 sudo tar -p -s --atime-preserve --same-owner --one-top-level=/media/$sd_dev_name -zxf "$tarball_path"
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # copying helper files for on-device setup
-sudo cp setup-alpine.in /media/$sd_dev_name
-sudo cp alpine_postinstall.sh /media/$sd_dev_name
+sudo cp $SCRIPT_DIR/setup-alpine.in /media/$sd_dev_name
+sudo cp $SCRIPT_DIR/alpine_ondevice_install.sh /media/$sd_dev_name
+# sudo cp $SCRIPT_DIR/network_interfaces /media/$sd_dev_name
+# sudo cp $SCRIPT_DIR/hosts /media/$sd_dev_name
 
 # task completed - we can unmount
 sudo umount /media/$sd_dev_name

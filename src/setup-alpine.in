@@ -1,0 +1,41 @@
+# Keyboard layout and variant
+KEYMAPOPTS="us us"
+
+# Hostname
+HOSTNAMEOPTS="-n rpi3objdetect"
+
+# Network interfaces
+INTERFACESOPTS="auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+    hostname rpi3objdetect
+"
+
+# DNS
+DNSOPTS="-d 1.1.1.1 8.8.8.8"
+
+# Timezone
+TIMEZONEOPTS="-z Europe/Moscow"
+
+# Proxy
+PROXYOPTS="none"
+
+# Add a CDN mirror for apk repository
+APKREPOSOPTS="-1"
+
+# Install OpenSSH
+SSHDOPTS="-c openssh"
+
+# NTP
+NTPOPTS="-c chrony"
+
+# Setup disk
+DISKOPTS="-m sys /dev/mmcblk0"
+
+# Setup lbu config storage
+# LBUOPTS="mmcblk0p1"
+
+# Setup apk cache
+# APKCACHEOPTS="/media/mmcblk0p1/cache"
