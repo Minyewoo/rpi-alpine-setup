@@ -1,3 +1,9 @@
+# Features 
+[x] SD carsd setup
+[x] On-device install
+[ ] Window system setup
+
+
 # Installation guide
 ## 1. SD card setup
 Insert sd card into your main machine.
