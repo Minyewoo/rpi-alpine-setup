@@ -1,7 +1,7 @@
 # Features 
-[x] SD carsd setup
-[x] On-device install
-[ ] Window system setup
+- [x] SD carsd setup
+- [x] On-device install
+- [ ] Window system setup
 
 
 # Installation guide
