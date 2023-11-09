@@ -1,5 +1,5 @@
 # Features 
-- [x] SD carsd setup
+- [x] SD card setup
 - [x] On-device install
 - [ ] Window system setup
 
@@ -48,7 +48,7 @@ echo "permit persist :wheel" >> /etc/doas.conf
 reboot
 ```
 
-## 4. Window system setup
+## 4. Window system setup (do not use for now, work in progress)
 
 You are able to see your IP address on network in OpenRC startup logs.
 Transfer setup script from your main machine:
